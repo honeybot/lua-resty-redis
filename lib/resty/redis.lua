@@ -1,9 +1,10 @@
 -- Copyright (C) Yichun Zhang (agentzh)
 
-
+local require = require
 local sub = string.sub
 local byte = string.byte
-local tcp = ngx.socket.tcp
+-- local tcp = ngx.socket.tcp
+local tcp = require("socket")
 local null = ngx.null
 local type = type
 local pairs = pairs
@@ -234,6 +235,7 @@ end
 
 local function _do_cmd(self, ...)
     local args = {...}
+    local table = table
 
     local sock = rawget(self, "_sock")
     if not sock then
@@ -250,7 +252,8 @@ local function _do_cmd(self, ...)
 
     -- print("request: ", table.concat(req))
 
-    local bytes, err = sock:send(req)
+    -- local bytes, err = sock:send(req)
+    local bytes, err = sock:send(table.concat(req))
     if not bytes then
         return nil, err
     end
